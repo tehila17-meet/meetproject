@@ -25,8 +25,8 @@ class Reviews(Base):
 	review = Column(String)
 	star = Column(Integer)
 class Diveshops(Base):
-	__tablename__ = "diveshops"
-	id = Column(Integer, primary_key= True)
+	__tablename__ = 'diveshops'
+	id = Column(Integer, primary_key = True)
 	what_place = Column(Integer)
 	shop_name = Column(String)
 	address = Column(String)

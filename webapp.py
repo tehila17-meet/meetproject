@@ -39,13 +39,13 @@ def diveplace(place_id):
 		price = request.form['price']
 		address = request.form['address']
 
-		s  = Diveshops(shop_name = shopname,price = price,address = address, what_place = place_id)
+		s = Diveshops(shop_name = shopname,price = price,address = address, what_place = place_id)
 		
 		session.add(s)
 		session.commit()
-		return redirect(url_for('diveplace',place_id = dive.id))
+		return render_template(url_for('diveplace', place_id = dive.id))
 		
-	return render_template('diveplace.html', dive = dive, review = review,shops = shops)
+	return render_template('diveplace.html', dive = dive, review = review, shops = shops)
 	
 	
 		

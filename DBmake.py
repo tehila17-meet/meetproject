@@ -17,6 +17,7 @@ zanzibar = Places(name = "zanzibar", location="Tanzania, Zanzibar", description=
 review1 = Reviews(review = "omg best dive ever", star = 5)
 deepsiam = Diveshops(shop_name = "Deep Siam", address = "123", price = "200")
 aqua = Diveshops(shop_name = "Aqua", address = "223", price = "300")
+
 session.add(deepsiam)
 session.add(aqua)
 session.add(zanzibar)
