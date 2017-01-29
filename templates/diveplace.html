@@ -12,14 +12,14 @@
     <title>Dive place</title>
 
     <!-- Bootstrap Core CSS -->
-    <link href="{{url_for('static','css' filename='bootstrap.css')}}" rel="stylesheet">
+    <link href="{{url_for('static', filename='css/bootstrap.min.css')}}" rel="stylesheet">
+   
 
     <!-- Custom CSS -->
-    <link href="{{url_for('static','css' filename='modern-business.css')}}" rel="stylesheet">
+    <link href="{{url_for('static', filename='css/clean-blog.min.css')}}" rel="stylesheet">
 
     <!-- Custom Fonts -->
-    <link href="{{url_for('static','css' filename='bootstrap.min.css')}}" rel="stylesheet" type="text/css">
-
+     <link href="{{url_for('static', filename='css/bootstrap.css')}}" rel="stylesheet">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -42,16 +42,18 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html">Start Bootstrap</a>
+                <a class="navbar-brand" href="index.html">Scuba Scuba</a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
                     <li>
-                        <a href="about.html">Places</a>
+                        <a href="{{url_for('places')}}">Places</a>
                     </li>
                     <li>
                         <a href="services.html">News</a>
+                    </li>
+                    <li><a href="{{url_for('profile')}}">My profile</a>
                     </li>
                 </ul>
             </div>
@@ -72,21 +74,26 @@
         <!-- Wrapper for slides -->
         <div class="carousel-inner">
             <div class="item active">
-                <div class="fill" style="background-image:url({{dive.photo1}});"></div>
+                <div class = "fill" >
+                <img src="{{dive.photo1}}">
+                </div>
+                
                 <div class="carousel-caption">
-                    <h2>Caption 1</h2>
+                    <h2>{{dive.description}}</h2>
                 </div>
             </div>
             <div class="item">
-                <div class="fill" style="background-image:url({{dive.photo2}});"></div>
+                <div class="fill">
+                <img src="{{dive.photo2}}"></div>
                 <div class="carousel-caption">
-                    <h2>Caption 2</h2>
+                    <h2>{{dive.description}}</h2>
                 </div>
             </div>
             <div class="item">
-                <div class="fill" style="background-image:url({{dive.photo3}});"></div>
+                <div class="fill">
+                <img src="{{dive.photo3}}"></div>
                 <div class="carousel-caption">
-                    <h2>Caption 3</h2>
+                    <h2>{{dive.description}}</h2>
                 </div>
             </div>
         </div>
@@ -157,9 +164,9 @@
 <h2>Dive shops</h2>
 {% for shop in shops %}
 
-<p>{{shop.shopname}}</p><br>
-<p>{{shop.address}}</p><br>
-<p>{{shope.price}}</p>
+<strong><p>{{shop.shop_name}}</p></strong>
+<p>Address: {{shop.address}}</p>
+<p>Price per day: {{shop.price}}</p>
 
 {% endfor %}
 </form>
@@ -170,13 +177,14 @@
         </div>
         
      
-        
+        "{{url_for('static', filename='css/bootstrap.min.css')}}"
      
     <!-- jQuery -->
-    <script src="js/jquery.js"></script>
+    <script src="{{url_for('static', filename='js/jquery.js')}}"></script>
+    
 
     <!-- Bootstrap Core JavaScript -->
-    <script src="js/bootstrap.min.js"></script>
+    <script src="{{url_for('static', filename='js/bootstrap.min.js')}}"></script>
 
     <!-- Script to Activate the Carousel -->
     <script>

@@ -1,0 +1,22 @@
+<DOCTYPE! html>
+<html>
+
+<head>
+<style>
+body{
+	background-image: url('static',filename = "ocean.jpeg");
+}
+</style>	
+</head>
+
+<body>
+
+<form action = {{url_for("login")}} method = "post">
+<input type="text" name="name" placeholder="Your name">
+<input type="text" name="password" placeholder="password">
+<input type="submit" value="Log in">
+</form>
+<a href={{url_for("signup")}}> Dont have an account!?</a>
+</body>
+
+</html>

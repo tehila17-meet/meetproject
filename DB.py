@@ -8,6 +8,12 @@ from itsdangerous import(TimedJSONWebSignatureSerializer as Serializer, BadSigna
 
 Base = declarative_base()
 
+class User(Base):
+	__tablename__ = 'user'
+	id = Column(Integer, primary_key = True)
+	name = Column(String)
+	password= Column(String)
+	
 class Places(Base):
 	__tablename__ = 'places'
 	id = Column(Integer, primary_key = True)

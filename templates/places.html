@@ -9,29 +9,39 @@
  <ul class="topnav" id="myTopnav">
   <li><a href="{{url_for('places')}}">Home</a></li>
   <li><a href="#news">News</a></li>
+  <li><a href="{{url_for('profile')}}">My profile</a></li>
   <li class="icon">
     <a href="javascript:void(0);" onclick="myFunction()">&#9776;</a>
   </li>
 </ul>
-<h1>The most beautiful places to dive in the world!</h1>
+<h1>Welcome {{user.name}}, take a look at some beautiful diving areas!</h1>
 {% if place==[] %}
 <p> No items now</p>
 {% else %}
-<div class="places">
+
+<hr width="50%" align="left">
 	{% for place in place %}
-	<a href={{url_for('diveplace', place_id = place.id)}}>
-	<p>{{place.name}}</p>
+	<a href={{url_for('diveplace', place_id = place.id)}} id = "placelink">view</a>
+	<p id="placename">{{place.name}}</p>
+	
+
 	<img src={{place.photo1}} height = "250">
-	</a>
-</div>
+	
+<hr width="50%" align="left">
+
 {% endfor %}
 {% endif %}
-<form action={{url_for('addplace')}} method = 'post'>
+<div class = "addplace">
+<form action={{url_for('addplace')}} method = 'post' enctype=multipart/form-data>
 <h3>Add an exotic diving place! </h3>
 <input type="text" placeholder="Name of diving place" name = "place">
 <input type ="text" placeholder="Location of diving place" name = "location">
 <input type ="text" placeholder="Describe the diving place" name = "description">
+<input type="file" name = "file1">
+<input type="file" name = "file2">
+<input type="file" name = "file3">
 <input type = "submit" value = "add!">
 </form>
+</div>
 </body>
 </html>
