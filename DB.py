@@ -1,4 +1,4 @@
-from sqlalchemy import Column,Integer,String, DateTime, ForeignKey, Float
+from sqlalchemy import Column,Integer,String, DateTime, ForeignKey, Float, Table
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, sessionmaker
 from sqlalchemy import create_engine, func
@@ -8,12 +8,31 @@ from itsdangerous import(TimedJSONWebSignatureSerializer as Serializer, BadSigna
 
 Base = declarative_base()
 
+'''	
+favorite_association = Table('association', Base.metadata,
+    Column('user_id', Integer, ForeignKey('user.id')),
+    Column('places_id', Integer, ForeignKey('places.id')))
+
+my_favs = relationship("User", 
+							  secondary=favorite_association, 
+							  primaryjoin=id==favorite_association.c.user_id,
+							  secondaryjoin=id==favorite_association.c.places_id,
+							  lazy=True)
+'''
+
 class User(Base):
 	__tablename__ = 'user'
 	id = Column(Integer, primary_key = True)
 	name = Column(String)
 	password= Column(String)
 	
+class Favs(Base):
+	__tablename__ = 'favs'
+	id =  Column(Integer, primary_key = True)
+	place = Column(Integer)
+	name = Column(String)
+
+
 class Places(Base):
 	__tablename__ = 'places'
 	id = Column(Integer, primary_key = True)

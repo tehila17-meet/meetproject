@@ -39,7 +39,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">Scuba scuba</a>
+                <a class="navbar-brand" href="#">Start Bootstrap</a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -65,9 +65,8 @@
         <!-- Page Heading -->
         <div class="row">
             <div class="col-lg-12">
-            <br>
-                <h1 class="page-header">Diving destinations
-                    <small>{{user.name}}</small>
+                <h1 class="page-header">Page Heading
+                    <small>Secondary Text</small>
                 </h1>
             </div>
         </div>
@@ -83,16 +82,14 @@
        
         <div class="row">
             <div class="col-md-7">
-                
-                    <img class="img-responsive" src="{{place.photo1}}" alt="">
-               
+                <a href="#">
+                    <img class="img-responsive" src="http://placehold.it/700x300" alt="">
+                </a>
             </div>
             <div class="col-md-5">
                 <h3>{{place.name}}</h3>
-                
-                
-                <p>{{x}} Reviews</p>
-                
+                <h4><a href="">Add to favorites</a></h4>
+                <p>{{place.description}}</p>
                 <a class="btn btn-primary" href="{{url_for('diveplace', place_id = place.id)}}" id = "placelink">View<span class="glyphicon glyphicon-chevron-right"></span></a>
             </div>
         </div>

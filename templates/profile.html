@@ -1,11 +1,31 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link rel = stylesheet type="text/css" href="{{url_for('static', filename='style.css')}}">
+	  <script src="{{url_for('static', filename='j.js')}}"></script> 
 
 </head>
 <body>
+ <ul class="topnav" id="myTopnav">
+  <li><a href="{{url_for('places')}}">Home</a></li>
+  <li><a href="#news">News</a></li>
+  <li><a href="{{url_for('profile')}}">My profile</a></li>
+  <li class="icon">
+    <a href="javascript:void(0);" onclick="myFunction()">&#9776;</a>
+  </li>
+</ul>
 <strong></strong>
-<p>{{user.name}}</p></strong> <p>welcome to you profile page!</p>
+<h1>{{user.name}}</h1></strong> <h1>welcome to your profile page!</h1>
+<h3>Your favorite dives:</h3>
+<ul id = "favs">
+{% for f in favorite %}
+<li>
+<p> {{f}}</p>
 
+</li>
+{% endfor %}
+
+</ul>
+<a href="{{url_for('logout')}}">Logout</a>
 </body>
 </html>

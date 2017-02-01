@@ -42,7 +42,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html">Scuba Scuba</a>
+               <p class="navbar-brand">{{dive.name}}</p>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -149,35 +149,9 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4><i class="fa fa-fw fa-gift"></i> Dive shops near {{dive.name}}</h4>
-                    </div>
-                    <div class="panel-body">
-                        <form action= "{{url_for('diveplace',place_id = dive.id)}}" method = "post">
-<h3>Add a dive shop near {{dive.name}}</h3>
-<input type="text" placeholder = "Name of dive shop" name="shopname">
-<input type="text" placeholder = "Price per day" name="price">
-<input type="text" placeholder = "Address" name="address">
-<input type="submit" value = "add!">
-<h2>Dive shops</h2>
-{% for shop in shops %}
-
-<strong><p>{{shop.shop_name}}</p></strong>
-<p>Address: {{shop.address}}</p>
-<p>Price per day: {{shop.price}}</p>
-
-{% endfor %}
-</form>
-                    </div>
-                </div>
-            </div>
-           
-        </div>
-        
-     
-        "{{url_for('static', filename='css/bootstrap.min.css')}}"
+            <form action =  "{{url_for('diveplace',place_id = dive.id)}}" method="post">
+                <input type ="submit" value = "add to favorites">
+                </form>
      
     <!-- jQuery -->
     <script src="{{url_for('static', filename='js/jquery.js')}}"></script>

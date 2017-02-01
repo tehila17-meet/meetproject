@@ -46,6 +46,7 @@ def login():
 			error = "Username or password incorrect"
 		else:
 			login_session['logged_in'] = True
+			login_session['fullname'] = True
 
 			return redirect(url_for('places'))
 	return render_template('login.html',error = error)
@@ -61,88 +62,89 @@ def signup():
 		new_user = User(name = fullname,password=pa)
 		session.add(new_user)
 		session.commit()
-		login_session['fullname'] = fullname
+		
 	return redirect(url_for('login'))
 
 @app.route('/profile')
 @login_r
+
 def profile():
-	if 'fullname' in login_session:
-		user = session.query(User).filter_by(name= login_session['fullname']).first()
-		return render_template('profile.html',user=user)
-	else:
-		return redirect(url_for("login"))
+	
+		user = session.query(User).filter_by(name = login_session['fullname']).first()
+		favorite = session.query(Favs).all()
+		return render_template('profile.html',user=user,favorite=favorite)
 
 
 @app.route('/places')
 @login_r
 def places():
-	place = session.query(Places).all()
-	user = session.query(User).filter_by(name= login_session['fullname']).first()
-	return render_template('places.html', place = place,user=user)
-def allowed_file(filename):
-    return '.' in filename and \
-           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+	
+		place = session.query(Places).all()
+		user = session.query(User).filter_by(name= login_session['fullname']).first()
+		return render_template('places.html', place = place,user=user)
+	
+
 
 @app.route("/diveplace/<int:place_id>" ,methods = ['GET','POST'])
 @login_r
 def diveplace(place_id):
 	
 	dive = session.query(Places).filter_by(id = place_id).first()
-
-	if request.method == 'GET':
-		review = session.query(Reviews).all()
-		shops = session.query(Diveshops).all()
+	review = session.query(Reviews).all()
+	if request.method == "POST":
+		#new_review = request.form['review']
+		#star = request.form['star']
 		
-	else:
-       
-		new_review = request.form['review']
-		star = request.form['star']
+		#r= Reviews(review = new_review, star = star, what_place = place_id)
+		#session.add(r)
+		#session.commit()
 		
-		r= Reviews(review= new_review, star = star, what_place = place_id)
-		
-		session.add(r)
+		new_favorite = Favs(place = place_id,name = dive.name)
+		session.add(new_favorite)
 		session.commit()
-		shopname = request.form['shopname']
-		price = request.form['price']
-		address = request.form['address']
+		
 
-		s = Diveshops(shop_name = shopname,price = price,address = address, what_place = place_id)
-		
-		session.add(s)
-		session.commit()
-		return render_template(url_for('diveplace', place_id = dive.id))
-		
-	return render_template('diveplace.html', dive = dive, review = review, shops = shops)
+		return redirect(url_for('diveplace',place_id = place_id))
+	global x 
+	x = 0
+	for i in review:
+		if i.what_place == place_id:
+			x+=1
 	
+	print(x)
+
+	return render_template('diveplace.html', dive = dive, review = review,x=x)
+'''
+
+@app.route('/fav', methods = ['GET','POST'])
+def fav():
+
+	new_favorite=session.query(Places).filter_by(id=place_id).first()
 	
+	user.my_favs.append(new_favorite)
+	new_favorite.my_favs.append(user)
+	session.commit()
+	return render_template('places.html')
+
 
 @app.route("/addplace", methods = ['GET','POST'])
 
 def addplace():
 	if request.method == 'POST':
-		if 'file' not in request.files:
-			flash('No file part')
-			return redirect(request.url)
-		file = request.files['file']
-		if file.filename == '':
-			flash('No selected file')
-			return redirect(request.url)
-		if file and allowed_file(file.filename):
-			filename = secure_filename(file.filename)
-			file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-			return redirect(url_for('uploaded_file',
-                                    filename=filename))
+	
 		name = request.form['place']
 		description = request.form['description']
 		location = request.form['location']
-		photo1 = request.form['file1']
-		photo2  = request.form['file2']
-		photo3 = request.form['file3']
-		newDiving = Places(name = name, description = description, location=location,photo1 = photo1, photo2 = photo2, photo3 = photo3)
+		#photo1 = request.form['file1']
+		#photo2  = request.form['file2']
+		#photo3 = request.form['file3']
+		newDiving = Places(name = name, description = description, location=location)
 		session.add(newDiving)
 		session.commit()
 	return redirect(url_for('places'))
+#def fav():
+'''
+
 '''		
 @app.route('/addreview',methods = ['GET','POST'])
 def addreview():
@@ -155,6 +157,25 @@ def addreview():
 		return redirect(url_for('places'))
 	else:
 		return render_template('diveplace.html',dive = dive, review = review)
+	if 'file' not in request.files:
+			flash('No file part')
+			return redirect(request.url)
+		file = request.files['file']
+		if file.filename == '':
+			flash('No selected file')
+			return redirect(request.url)
+		if file and allowed_file(file.filename):
+			filename = secure_filename(file.filename)
+			file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+			return redirect(url_for('uploaded_file',
+                                    filename=filename))
 '''
+@app.route('/logout')
+@login_r
+def logout():
+	login_session.pop('logged_in',None)
+	
+	return redirect(url_for('login'))
+
 if __name__ == '__main__':
     app.run(debug=True)

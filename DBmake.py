@@ -14,13 +14,15 @@ eilat = Places(name = "Red sea", location="Israel, Eilat",description="The coral
 zanzibar = Places(name = "zanzibar", location="Tanzania, Zanzibar", description="wow",photo1 = "https://www.absoluteafrica.com/trip_pix/Kendwa%20328.jpg",
 	photo2 = "http://www.thebestbeach.com.au/Images/zanzibar-beach.jpg",
 	photo3= "http://www.scubafishzanzibar.com/img/scubafish.jpg")
+mexico = Places(name="mexico",location="mexico reef", description="ahhh", photo1="http://cozumelcruiseexcursions.net/images/discover-scuba-cozumel/cozumel-introductory-to-scuba-diving.jpg"
+	,photo2 = "http://www.aluxdiver.com/cenotes-riviera-maya/wp-content/uploads/2011/07/chac-kukulkan.jpg",photo3 = "https://www.diveaventuras.com/wp-content/uploads/2016/03/whaleshark-diving-mexico-playa-1650x650.jpg")
 review1 = Reviews(review = "omg best dive ever", star = 5)
 deepsiam = Diveshops(shop_name = "Deep Siam", address = "123", price = "200")
 aqua = Diveshops(shop_name = "Aqua", address = "223", price = "300")
 session.add(tehila)
-session.add(deepsiam)
-session.add(aqua)
+
 session.add(zanzibar)
 session.add(eilat)
+session.add(mexico)
 session.add(review1)
 session.commit()

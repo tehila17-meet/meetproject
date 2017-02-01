@@ -1,0 +1,46 @@
+<DOCTYPE! html>
+<html>
+<head>
+	 <link rel = stylesheet type="text/css" href="{{url_for('static', filename='style.css')}}">
+	  <script src="{{url_for('static', filename='j.js')}}"></script> 
+</head>
+<body>
+<body>
+ <ul class="topnav" id="myTopnav">
+  <li><a href="{{url_for('places')}}">Home</a></li>
+  <li><a href="#news">News</a></li>
+  <li><a href="{{url_for('profile')}}">My profile</a></li>
+  <li><form action="{{url_for('places')}}" method = "get">
+  <input type="search" name="search" value = "search.." id = "search">
+  <input type="submit" name="s" value = "search">
+  </form>
+  <li class="icon">
+    <a href="javascript:void(0);" onclick="myFunction()">&#9776;</a>
+  </li>
+</ul>
+<h1>Welcome {{user.name}}, take a look at some beautiful diving areas!</h1>
+{% if place==[] %}
+<p> No items now</p>
+{% else %}
+
+<hr width="50%" align="left">
+	{% for place in place %}
+	<a href="">Add to favorties</a>
+	<a href="">Mark as already been</a>
+	<p id="placename">{{place.name}}</p>
+
+	<a href={{url_for('diveplace', place_id = place.id)}} id = "placelink">
+	<img src={{place.photo1}} height = "250">
+	</a>
+	
+
+
+
+{% endfor %}
+{% endif %}
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,12 @@
+<div class = "addplace"> 
+<form action={{url_for('')}} method = 'post' enctype=multipart/form-data>
+<h3>Add an exotic diving place! </h3>
+<input type="text" placeholder="Name of diving place" name = "place">
+<input type ="text" placeholder="Location of diving place" name = "location">
+<input type ="text" placeholder="Describe the diving place" name = "description">
+<input type="file" name = "file1">
+<input type="file" name = "file2">
+<input type="file" name = "file3">
+<input type = "submit" value = "add!">
+</form>
+</div>
