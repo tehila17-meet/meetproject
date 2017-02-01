@@ -92,12 +92,12 @@ def diveplace(place_id):
 	dive = session.query(Places).filter_by(id = place_id).first()
 	review = session.query(Reviews).all()
 	if request.method == "POST":
-		#new_review = request.form['review']
-		#star = request.form['star']
+		new_review = request.form['review']
+		star = request.form['star']
 		
-		#r= Reviews(review = new_review, star = star, what_place = place_id)
-		#session.add(r)
-		#session.commit()
+		r= Reviews(review = new_review, star = star, what_place = place_id)
+		session.add(r)
+		session.commit()
 		
 		new_favorite = Favs(place = place_id,name = dive.name)
 		session.add(new_favorite)
