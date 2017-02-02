@@ -10,6 +10,8 @@ from werkzeug.utils import secure_filename
 UPLOAD_FOLDER = ''
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 
+
+
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.secret_key = "MY_SUPER_SECRET_KEY"

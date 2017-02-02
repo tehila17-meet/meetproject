@@ -59,6 +59,7 @@ class Diveshops(Base):
 
 
 engine = create_engine('sqlite:///fizzBuzz.db')
+#engine = create_engine('postgres:///d5tc1uq8kg2535.db')
 Base.metadata.create_all(engine)
 
 	
