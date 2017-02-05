@@ -26,6 +26,53 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <style type="text/css" rel="stylesheet">
+    #snackbar {
+    visibility: hidden; /* Hidden by default. Visible on click */
+    min-width: 250px; /* Set a default minimum width */
+    margin-left: -125px; /* Divide value of min-width by 2 */
+    background-color: #333; /* Black background color */
+    color: #fff; /* White text color */
+    text-align: center; /* Centered text */
+    border-radius: 2px; /* Rounded borders */
+    padding: 16px; /* Padding */
+    position: fixed; /* Sit on top of the screen */
+    z-index: 1; /* Add a z-index if needed */
+    left: 50%; /* Center the snackbar */
+    bottom: 30px; /* 30px from the bottom */
+}
+
+/* Show the snackbar when clicking on a button (class added with JavaScript) */
+#snackbar.show {
+    visibility: visible; /* Show the snackbar */
+
+/* Add animation: Take 0.5 seconds to fade in and out the snackbar.
+However, delay the fade out process for 2.5 seconds */
+    -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+/* Animations to fade the snackbar in and out */
+@-webkit-keyframes fadein {
+    from {bottom: 0; opacity: 0;}
+    to {bottom: 30px; opacity: 1;}
+}
+
+@keyframes fadein {
+    from {bottom: 0; opacity: 0;}
+    to {bottom: 30px; opacity: 1;}
+}
+
+@-webkit-keyframes fadeout {
+    from {bottom: 30px; opacity: 1;}
+    to {bottom: 0; opacity: 0;}
+}
+
+@keyframes fadeout {
+    from {bottom: 30px; opacity: 1;}
+    to {bottom: 0; opacity: 0;}
+}
+</style>
 
 </head>
 
@@ -53,7 +100,7 @@
                     <li>
                         <a href="services.html">News</a>
                     </li>
-                    <li><a href="{{url_for('profile')}}">My profile</a>
+                    <li><a href="{{url_for('profile', user_id = user.id)}}">My profile</a>
                     </li>
                 </ul>
             </div>
@@ -126,16 +173,16 @@
                         
                     <form action="{{url_for('diveplace',place_id = dive.id)}}" method = 'post'>
                      
-                        <input type="text" placeholder="How is this diving place?" name = "review">
-                        <input type ="number" placeholder="How would you rate the place (1-5)" name= "star">
-                        <input type = "submit" value = "add!">
+                     
                     
                          {% for review in review %}
                          {% if review.what_place == dive.id %}
 
                         <div class="reviews">
-        
-                               <p>{{review.review}} {{review.star}}</p>
+                            
+                               <p>{{review.review}} | {{review.star}}</p>
+                               <img src = "{{url_for('static', filename='star.png')}}" height="20px">
+                           <strong><hr></strong> 
 
                          </div>
 
@@ -143,15 +190,51 @@
                          {% endif %}
 
                         {% endfor %}
+                        <input type="text" placeholder="How is this diving place?" name = "review">
+                        <input type ="number" placeholder="How would you rate the place (1-5)" name= "star">
+                        <input type = "submit" value = "add!">
+                        <img src="{{url_for('static', filename='star.png')}}" height = "20px">
                 </form>
                          </div>
 
                     </div>
                 </div>
+           
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4><i class="fa fa-fw fa-check"></i> Everything you need to know</h4>
+                    </div>
+                    <div class="panel-body">
+                          
+                          <ul>
+                            <li><strong>Best time to dive:</strong> {{dive.bestime}}</li>  <br>
+                            <li><strong>Dive shops:</strong> {{dive.diveshop1}} or {{dive.diveshop2}}</li>  <br> 
+                            <li><strong>prices in each shop:</strong> {{dive.ds1price}} or {{dive.ds2price}}</li>  <br> 
+                            <li><strong>narley fish:</strong> {{dive.narley_fish}}</li>  
+                             
+
+                    
+                    
+
+           
+                         </div>
+
+                    </div>
+                </div>
+                 </div>
+         
             </div>
-            <form action =  "{{url_for('diveplace',place_id = dive.id)}}" method="post">
-                <input type ="submit" value = "add to favorites">
+            
+
+
+            <form action =  "{{url_for('fav',place_id = dive.id)}}" method="post">
+               
+                <input type ="submit" value = "add to favorites" onclick="myFunction()">
+               
                 </form>
+          
+            <div id="snackbar">{{dive.name}} added to favorites</div>
      
     <!-- jQuery -->
     <script src="{{url_for('static', filename='js/jquery.js')}}"></script>
@@ -163,8 +246,38 @@
     <!-- Script to Activate the Carousel -->
     <script>
     $('.carousel').carousel({
-        interval: 5000 //changes the speed
+        interval: 5000//changes the speed
     })
+    </script>
+    <script type="text/javascript">
+        function myFunction() {
+    // Get the snackbar DIV
+    var x = document.getElementById("snackbar")
+
+    // Add the "show" class to DIV
+    x.className = "show";
+
+    // After 3 seconds, remove the show class from DIV
+    setTimeout(function(){ x.className = x.className.replace("show", ""); }, 10000);
+}
+    </script>
+    <script type="text/javascript">
+        function stars() {
+            var star = document.getElementById('star');
+            var y = 0;
+            while(y != star){
+            var x = document.createElement("IMG");
+            x.setAttribute("src", "img_pulpit.jpg");
+            x.setAttribute("width", "304");
+            x.setAttribute("width", "228");
+            x.setAttribute("alt", "Star");
+            document.body.appendChild(x);
+            y +=1;
+}  
+            }
+
+            
+ 
     </script>
 
 </body>

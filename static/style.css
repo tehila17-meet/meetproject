@@ -1,4 +1,13 @@
+input[type=text] {
+    width: 130px;
+    -webkit-transition: width 0.4s ease-in-out;
+    transition: width 0.4s ease-in-out;
+}
 
+/* When the input field gets focus, change its width to 100% */
+input[type=text]:focus {
+    width: 100%;
+}
 h1 { color: "black"; font-family: 'Raleway',sans-serif; font-size: 62px; font-weight: 800; line-height: 72px;
  margin: 0 0 24px; text-align: center;  }
 

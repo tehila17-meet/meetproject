@@ -6,7 +6,8 @@ from functools import wraps
 import os
 
 from werkzeug.utils import secure_filename
-
+import random
+from random import choice, sample
 UPLOAD_FOLDER = ''
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 
@@ -48,7 +49,7 @@ def login():
 			error = "Username or password incorrect"
 		else:
 			login_session['logged_in'] = True
-			login_session['fullname'] = True
+			login_session['fullname'] = user_name
 
 			return redirect(url_for('places'))
 	return render_template('login.html',error = error)
@@ -67,14 +68,34 @@ def signup():
 		
 	return redirect(url_for('login'))
 
-@app.route('/profile')
+@app.route('/search', methods = ['GET','POST'])
+def search():
+	if request.method == 'POST':
+		name_place = request.form['search']
+		print(name_place)
+		places = session.query(Places).all()
+		for p in places:
+			if name_place == p.name:
+				a = p.id
+				#return render_template('diveplace.html',place_id = a)
+				return redirect(url_for('diveplace',place_id =a))
+			else:
+				return redirect(url_for('places'))
+	
+
+@app.route('/profile/<int:user_id>')
 @login_r
 
-def profile():
-	
-		user = session.query(User).filter_by(name = login_session['fullname']).first()
-		favorite = session.query(Favs).all()
-		return render_template('profile.html',user=user,favorite=favorite)
+def profile(user_id):
+		dive = session.query(Places).first()
+		fav = session.query(Favs).all()
+		
+		#user = session.query(User).filter_by(name = login_session['fullname']).first()
+		user = session.query(User).filter_by(id = user_id).first()
+		user1 =  session.query(User).filter_by(name= login_session['fullname']).first()
+		
+		#new_favorite = Favs(place = place_id,user = user.id)
+		return render_template('profile.html',user=user,fav=fav,dive=dive,user1 = user1)
 
 
 @app.route('/places')
@@ -93,29 +114,39 @@ def diveplace(place_id):
 	
 	dive = session.query(Places).filter_by(id = place_id).first()
 	review = session.query(Reviews).all()
+	user = session.query(User).first()
 	if request.method == "POST":
 		new_review = request.form['review']
 		star = request.form['star']
+
 		
 		r= Reviews(review = new_review, star = star, what_place = place_id)
 		session.add(r)
 		session.commit()
 		
-		new_favorite = Favs(place = place_id,name = dive.name)
-		session.add(new_favorite)
-		session.commit()
-		
+		print(star)
 
 		return redirect(url_for('diveplace',place_id = place_id))
-	global x 
-	x = 0
-	for i in review:
-		if i.what_place == place_id:
-			x+=1
 	
-	print(x)
+	return render_template('diveplace.html', dive = dive, review = review,user=user)
+@app.route('/diveplace<int:place_id>',methods= ['GET','POST'])
+def fav(place_id):
+	dive = session.query(Places).filter_by(id = place_id).one()
+	user = session.query(User).all()
+	for u in user:
+		a = user.id
 
-	return render_template('diveplace.html', dive = dive, review = review,x=x)
+	if request.method == 'POST':
+
+		new_favorite = Favs(place = place_id, user = a.id)
+		session.add(new_favorite)
+		session.commit()
+		return redirect(url_for('diveplace',place_id = place_id))
+	return render_template('diveplace.html', dive = dive, review = review,user=user)
+	
+
+
+
 '''
 
 @app.route('/fav', methods = ['GET','POST'])
@@ -172,6 +203,15 @@ def addreview():
 			return redirect(url_for('uploaded_file',
                                     filename=filename))
 '''
+@app.route('/random')
+def random():
+ 
+	places = session.query(Places).all()
+	print(places)
+	b = choice(places)
+	c = b.id 
+	return redirect(url_for('diveplace',place_id = c ))
+
 @app.route('/logout')
 @login_r
 def logout():

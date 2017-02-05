@@ -30,7 +30,7 @@ class Favs(Base):
 	__tablename__ = 'favs'
 	id =  Column(Integer, primary_key = True)
 	place = Column(Integer)
-	name = Column(String)
+	user = Column(Integer)
 
 
 class Places(Base):
@@ -42,6 +42,14 @@ class Places(Base):
 	photo1 = Column(String)
 	photo2 = Column(String)
 	photo3 = Column(String)
+	best_time = Column(String)
+	diveshop1 = Column(String)
+	ds1price = Column(Integer)
+	diveshop2 = Column(String)
+	ds2price = Column(Integer)
+	narley_fish = Column(String)
+
+
 
 class Reviews(Base):
 	__tablename__ = 'reviews'
@@ -49,17 +57,11 @@ class Reviews(Base):
 	what_place = Column(Integer)
 	review = Column(String)
 	star = Column(Integer)
-class Diveshops(Base):
-	__tablename__ = 'diveshops'
-	id = Column(Integer, primary_key = True)
-	what_place = Column(Integer)
-	shop_name = Column(String)
-	address = Column(String)
-	price = Column(String)
+	name= Column(String)
 
 
-engine = create_engine('sqlite:///fizzBuzz.db')
-#engine = create_engine('postgres:///d5tc1uq8kg2535.db')
+#engine = create_engine('sqlite:///fizzBuzz.db')
+engine = create_engine('postgres:///d5tc1uq8kg2535.db')
 Base.metadata.create_all(engine)
 
 	

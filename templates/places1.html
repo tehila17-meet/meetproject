@@ -69,7 +69,6 @@
                 <h1 class="page-header">Diving destinations
                     <small>{{user.name}}</small>
                 </h1>
-                <a href = "{{url_for('random')}}"> Feeling random?</a>
                 <form action = "{{url_for('search')}}" method = "post">
                 <input type = "search" name = "search" placeholder="Search for a place to dive">
                 <input type="submit" name="look_for" value="Dive!">
@@ -120,10 +119,10 @@
                         <a href="#">&laquo;</a>
                     </li>
                     <li class="active">
-                        <a href="#">1</a>
+                        <a href="{{url_for(places)}}">1</a>
                     </li>
                     <li>
-                        <a href="#">2</a>
+                        <a href="{{url_for(places1)}}">2</a>
                     </li>
                     <li>
                         <a href="#">3</a>
