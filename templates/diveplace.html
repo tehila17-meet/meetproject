@@ -238,6 +238,9 @@ However, delay the fade out process for 2.5 seconds */
                 <input type ="submit" value = "add to favorites" onclick="myFunction()">
                
                 </form>
+             <form action = "{{url_for('been',place_id = dive.id)}}" method = "post">
+                <input type = "submit" name = "been" value="Add to been">
+                </form>
 
           
             <div id="snackbar">{{dive.name}} added to favorites</div>

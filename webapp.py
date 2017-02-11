@@ -1,20 +1,16 @@
 from flask import Flask, render_template,url_for,flash,redirect,g,request
 from DB import *
-
 from flask import session as login_session
 from functools import wraps
 import os
-
 from werkzeug.utils import secure_filename
 import random
 from random import choice, sample
-UPLOAD_FOLDER = ''
-ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 
 
 
 app = Flask(__name__)
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
 app.secret_key = "MY_SUPER_SECRET_KEY"
 
 engine = create_engine('sqlite:///fizzBuzz.db')
@@ -102,10 +98,27 @@ def search1():
 def profile(user_id):
 	if request.method == 'GET':
 		user = session.query(User).filter_by(name= login_session['fullname']).first()
-		print("we are here")
-		print(user.places)
+		user1 = session.query(User).filter_by(name= login_session['fullname']).first()
+		
+		'''
+		for precent been
 		places = user.places
+		all_places = session.query(Places).all()
+		counter = 0
+		counter1 = 0
+		for place in all_places:
+			counter += 1
+	
+		for fav in places:
+			counter1 += 1
+		
+		o = counter1 * 100
+		s = o / counter
+		print(s)
+		'''
 		return render_template('profile.html',user=user)
+
+
 	else:
 		user = session.query(User).filter_by(name= login_session['fullname']).first()
 		for p in user.places:
@@ -115,15 +128,13 @@ def profile(user_id):
 		return redirect(url_for('profile',user_id =user.id))
 
 
+
 @app.route('/places')
 @login_r
 def places():
-	
-	
-		place = session.query(Places).all()
-		user = session.query(User).filter_by(name= login_session['fullname']).first()
-		return render_template('places.html', place = place,user=user)
-
+	place = session.query(Places).all()
+	user = session.query(User).filter_by(name= login_session['fullname']).first()
+	return render_template('places.html', place = place,user=user)
 
 	
 @app.route('/boats')
@@ -164,9 +175,19 @@ def fav(place_id):
 		print("we made it!")
 		session.commit()
 		return redirect(url_for('diveplace',place_id = place_id, user=user))
+		
+@app.route('/divingplace/been/<int:place_id>',methods = ['GET','POST'])
+def been(place_id):
+		user = session.query(User).filter_by(name = login_session['fullname']).first()
+		new_been=session.query(Places).filter_by(id=place_id).first()
+		
+		user.places_been.append(new_been)
+		new_been.user_been.append(user)
+		print("we made it!")
+		session.commit()
+		return redirect(url_for('diveplace',place_id = place_id, user=user))
 
 @app.route("/boatplace/<int:boat_id>" ,methods = ['GET','POST'])
-
 @login_r
 def boatplace(boat_id):
 	
@@ -188,84 +209,7 @@ def boatplace(boat_id):
 		return redirect(url_for('boatplace',boat_id = boat_id, star=star))
 	
 	return render_template('boatplace.html', ship = ship, review = review,user=user)
-'''
-@app.route('/fav/<int:place_id>',methods= ['GET','POST'])
-def fav(place_id):
-	user = session.query(User).filter_by(name = login_session['fullname']).first()
-	if request.method == 'GET':
-		dive = session.query(User).filter_by(id = place_id).first()
-		return render_template('profile.html', place = place)
 
-	else:
-		
-		new_favorite=session.query(User).filter_by(id=place_id).first()
-		
-		user.places.append(new_favorite)
-		new_favorite.places.append(user)
-		print("we made it!")
-		session.commit()
-		return render_template('profile,html',user = user)
-	
-	
-
-
-
-
-
-@app.route('/fav', methods = ['GET','POST'])
-def fav():
-
-	new_favorite=session.query(Places).filter_by(id=place_id).first()
-	
-	user.my_favs.append(new_favorite)
-	new_favorite.my_favs.append(user)
-	session.commit()
-	return render_template('places.html')
-
-
-@app.route("/addplace", methods = ['GET','POST'])
-
-def addplace():
-	if request.method == 'POST':
-	
-		name = request.form['place']
-		description = request.form['description']
-		location = request.form['location']
-		#photo1 = request.form['file1']
-		#photo2  = request.form['file2']
-		#photo3 = request.form['file3']
-		newDiving = Places(name = name, description = description, location=location)
-		session.add(newDiving)
-		session.commit()
-	return redirect(url_for('places'))
-#def fav():
-'''
-
-'''		
-@app.route('/addreview',methods = ['GET','POST'])
-def addreview():
-	if request.method == 'POST':
-		review = request.form['review']
-		star = request.form['star']
-		newReview = Reviews(review = review, star = star, what_place = place.id)
-		session.add(newReview)
-		session.commit()
-		return redirect(url_for('places'))
-	else:
-		return render_template('diveplace.html',dive = dive, review = review)
-	if 'file' not in request.files:
-			flash('No file part')
-			return redirect(request.url)
-		file = request.files['file']
-		if file.filename == '':
-			flash('No selected file')
-			return redirect(request.url)
-		if file and allowed_file(file.filename):
-			filename = secure_filename(file.filename)
-			file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-			return redirect(url_for('uploaded_file',
-                                    filename=filename))
-'''
 @app.route('/random')
 def random():
  
@@ -289,6 +233,7 @@ def logout():
 	login_session.pop('logged_in',None)
 	
 	return redirect(url_for('login'))
+
 
 if __name__ == '__main__':
     app.run(debug=True)

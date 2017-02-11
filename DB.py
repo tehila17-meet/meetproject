@@ -8,25 +8,14 @@ from itsdangerous import(TimedJSONWebSignatureSerializer as Serializer, BadSigna
 
 Base = declarative_base()
 
-'''	
-favorite_association = Table('association', Base.metadata,
-    Column('user_id', Integer, ForeignKey('user.id')),
-    Column('places_id', Integer, ForeignKey('places.id')))
-
-my_favs = relationship("User", 
-							  secondary=favorite_association, 
-							  primaryjoin=id==favorite_association.c.user_id,
-							  secondaryjoin=id==favorite_association.c.places_id,
-							  lazy=True)
-'''
 favorite_association = Table('association', Base.metadata,
 	Column('user_id', Integer, ForeignKey('user.id')),
 	Column('places_id', Integer, ForeignKey('places.id'))
 	)
-favorite_association1 = Table('association1', Base.metadata,
-	Column('user_id', Integer, ForeignKey('user.id')),
-	Column('boats_id', Integer, ForeignKey('boats.id'))
-	)
+been_association = Table('been',Base.metadata,
+	Column('user_id1',Integer,ForeignKey('user.id')),
+	Column('places_id1',Integer,ForeignKey('places.id')))
+
 class User(Base):
 	__tablename__ = 'user'
 	id = Column(Integer, primary_key = True)
@@ -35,9 +24,10 @@ class User(Base):
 	places = relationship("Places",
 		secondary=favorite_association,
 		back_populates = "user")
-	boats = relationship("Boats",
-		secondary=favorite_association1,
+	places_been = relationship("Places",
+		secondary=been_association,
 		back_populates = "user")
+	
 	
 
 
@@ -61,6 +51,10 @@ class Places(Base):
 		"User",
 		secondary=favorite_association,
 		back_populates="places")
+	user_been = relationship(
+		"User",
+		secondary=been_association,
+		back_populates = "places")
 
 class Boats(Base):
 	__tablename__ = 'boats'
@@ -72,23 +66,8 @@ class Boats(Base):
 	photo2 = Column(String)
 	photo3 = Column(String)
 	description = Column(String)
-	user = relationship(
-		"User",
-		secondary=favorite_association1,
-		back_populates="boats")
-
-class Reefs(Base):
-	__tablename__ = 'reefs'
-	id = Column(Integer, primary_key = True)
-	name = Column(String)
-	location = Column(String)
-	photo1 = Column(String)
-	photo2 = Column(String)
-	photo3 = Column(String)
-
-
-
-
+	
+	
 
 class Reviews(Base):
 	__tablename__ = 'reviews'

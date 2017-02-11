@@ -81,12 +81,7 @@
 						{% else %}
 						{% for f in user.places%}
 						<li>
-						<p> {{f.name}}</p><form action = "{{url_for('profile',user_id = user.id)}}" method="post">
-						<img src = "{{url_for('static',filename = 'x.png')}}" height = "10px">
-						<input type="submit" name="x" style = "background:url('{{url_for('static',filename = 'x.png')}}')">
-						</form>
-						
-						
+						<p> {{f.name}}</p>
 						</li>
 						
 						{% endfor %}
@@ -106,18 +101,22 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4><i class="fa fa-fw fa-check"></i> Where you have dived:</h4>
-                        <h6>You have dove in % of the destinations!</h6>
+                        <h6>You have dove in {{s}}% of the destinations!</h6>
                     </div>
                     <div class="panel-body">
 
 						<ul id = "favs">
-						{% for d in been%}
+						{% if user.places_been == [] %}
+						<p>You havent dove anywhere yet!</p>
+						{% else %}
+						{% for d in user.places_been %}
 						<li>
-						<a href= "{{url_for('boatplace', boat_id = ship.id)}}"><p> {{ship.name}}</p></a>
+						<a href= "{{url_for('boatplace', boat_id = ship.id)}}"><p> {{d.name}}</p></a>
 
 						</li>
 						
 						{% endfor %}
+						{% endif %}
 
 						</ul>
 
