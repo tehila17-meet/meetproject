@@ -81,31 +81,57 @@ def search():
 				return redirect(url_for('diveplace',place_id =a))
 			else:
 				return redirect(url_for('places'))
+@app.route('/search1', methods = ['GET','POST'])
+def search1():
+	if request.method == 'POST':
+		name_place = request.form['search']
+		print(name_place)
+		places = session.query(Boats).all()
+		for p in places:
+			if name_place == p.name:
+				a = p.id
+				#return render_template('diveplace.html',place_id = a)
+				return redirect(url_for('boatplace',boat_id =a))
+			else:
+				return redirect(url_for('boats'))
 	
 
-@app.route('/profile/<int:user_id>')
+@app.route('/profile/<int:user_id>',methods = ['GET','POST'])
 @login_r
 
 def profile(user_id):
-		dive = session.query(Places).first()
-		fav = session.query(Favs).all()
-		
-		#user = session.query(User).filter_by(name = login_session['fullname']).first()
-		user = session.query(User).filter_by(id = user_id).first()
-		user1 =  session.query(User).filter_by(name= login_session['fullname']).first()
-		
-		#new_favorite = Favs(place = place_id,user = user.id)
-		return render_template('profile.html',user=user,fav=fav,dive=dive,user1 = user1)
+	if request.method == 'GET':
+		user = session.query(User).filter_by(name= login_session['fullname']).first()
+		print("we are here")
+		print(user.places)
+		places = user.places
+		return render_template('profile.html',user=user)
+	else:
+		user = session.query(User).filter_by(name= login_session['fullname']).first()
+		for p in user.places:
+			print p.name
+			user.places.remove(p)
+		session.commit()
+		return redirect(url_for('profile',user_id =user.id))
 
 
 @app.route('/places')
 @login_r
 def places():
 	
+	
 		place = session.query(Places).all()
 		user = session.query(User).filter_by(name= login_session['fullname']).first()
 		return render_template('places.html', place = place,user=user)
+
+
 	
+@app.route('/boats')
+@login_r
+def boats():
+	boat = session.query(Boats).all()
+	user = session.query(User).filter_by(name= login_session['fullname']).first()
+	return render_template('boats.html', boat = boat,user=user)
 
 
 @app.route("/diveplace/<int:place_id>" ,methods = ['GET','POST'])
@@ -114,40 +140,77 @@ def diveplace(place_id):
 	
 	dive = session.query(Places).filter_by(id = place_id).first()
 	review = session.query(Reviews).all()
-	user = session.query(User).first()
+	user = session.query(User).filter_by(name = login_session['fullname']).first()
 	if request.method == "POST":
 		new_review = request.form['review']
 		star = request.form['star']
+
 
 		
 		r= Reviews(review = new_review, star = star, what_place = place_id)
 		session.add(r)
 		session.commit()
+		return redirect(url_for('diveplace',place_id = place_id, user=user))
+	return render_template('diveplace.html', dive = dive, review = review,user=user,place_id=place_id)
 		
-		print(star)
 
-		return redirect(url_for('diveplace',place_id = place_id))
-	
-	return render_template('diveplace.html', dive = dive, review = review,user=user)
-@app.route('/diveplace<int:place_id>',methods= ['GET','POST'])
-def fav(place_id):
-	dive = session.query(Places).filter_by(id = place_id).one()
-	user = session.query(User).all()
-	for u in user:
-		a = user.id
-
-	if request.method == 'POST':
-
-		new_favorite = Favs(place = place_id, user = a.id)
-		session.add(new_favorite)
+@app.route('/divingplace/fav/<int:place_id>',methods = ['GET','POST'])
+def fav(place_id):		
+		user = session.query(User).filter_by(name = login_session['fullname']).first()
+		new_favorite=session.query(Places).filter_by(id=place_id).first()
+		
+		user.places.append(new_favorite)
+		new_favorite.user.append(user)
+		print("we made it!")
 		session.commit()
-		return redirect(url_for('diveplace',place_id = place_id))
-	return render_template('diveplace.html', dive = dive, review = review,user=user)
+		return redirect(url_for('diveplace',place_id = place_id, user=user))
+
+@app.route("/boatplace/<int:boat_id>" ,methods = ['GET','POST'])
+
+@login_r
+def boatplace(boat_id):
+	
+	ship = session.query(Boats).filter_by(id = boat_id).first()
+	review = session.query(Reviews).all()
+	user = session.query(User).first()
+	if request.method == "POST":
+		new_review = request.form['review']
+		star = request.form['star']
+
+
+		
+		r= Reviews(review = new_review, star = star, what_place = boat_id)
+		session.add(r)
+		session.commit()
+		
+		
+
+		return redirect(url_for('boatplace',boat_id = boat_id, star=star))
+	
+	return render_template('boatplace.html', ship = ship, review = review,user=user)
+'''
+@app.route('/fav/<int:place_id>',methods= ['GET','POST'])
+def fav(place_id):
+	user = session.query(User).filter_by(name = login_session['fullname']).first()
+	if request.method == 'GET':
+		dive = session.query(User).filter_by(id = place_id).first()
+		return render_template('profile.html', place = place)
+
+	else:
+		
+		new_favorite=session.query(User).filter_by(id=place_id).first()
+		
+		user.places.append(new_favorite)
+		new_favorite.places.append(user)
+		print("we made it!")
+		session.commit()
+		return render_template('profile,html',user = user)
+	
 	
 
 
 
-'''
+
 
 @app.route('/fav', methods = ['GET','POST'])
 def fav():
@@ -211,6 +274,14 @@ def random():
 	b = choice(places)
 	c = b.id 
 	return redirect(url_for('diveplace',place_id = c ))
+@app.route('/random1')
+def random1():
+ 
+	boats = session.query(Boats).all()
+	
+	d = choice(boats)
+	e = d.id 
+	return redirect(url_for('boatplace',boat_id = e ))
 
 @app.route('/logout')
 @login_r

@@ -30,6 +30,10 @@ indonesia = Places(name = "Indonesia",location="indonesia,asia",description="cra
 	photo2 = "http://images.travelpod.com/tripwow/photos/ta-00d2-361c-f30b/dream-beach-indonesia-indonesia+12958113281-tpfil02aw-17900.jpg",photo3 = "", best_time="", diveshop1="",diveshop2="", ds2price="",ds1price="",narley_fish="") 
 review1 = Reviews(review = "omg best dive ever", star = 5)
 
+USS = Boats(name = "USS Vandenberg", location = "Florida Keys,USA", boat_history = "From world war 2",photo1 = "http://navy.memorieshop.com/VanDenburg/At-Sea.jpg",
+	photo2 = "http://www.whats-at-florida-keys.com/images/vandenberg1.gif",photo3 = "http://media0.trover.com/T/536a7edbd809d8615800001f/fixedw_large_4x.jpg",	description = "The Vandenberg rests 7 miles south of Key West Florida. 10 stories high, depth ranges from 39 - 150. visibility ranges from 19 - 98ft")
+	
+
 
 session.add(tehila)
 session.add(indonesia)
@@ -38,4 +42,5 @@ session.add(eilat)
 session.add(mexico)
 session.add(maldives)
 session.add(review1)
+session.add(USS)
 session.commit()

@@ -89,7 +89,7 @@ However, delay the fade out process for 2.5 seconds */
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-               <p class="navbar-brand">{{dive.name}}</p>
+               <p class="navbar-brand">{{ship.name}}</p>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -125,25 +125,25 @@ However, delay the fade out process for 2.5 seconds */
         <div class="carousel-inner">
             <div class="item active">
                 <div class = "fill" >
-                <img src="{{dive.photo1}}">
+                <img src="{{ship.photo1}}">
                 </div>
                 
                 <div class="carousel-caption">
-                    <h2>{{dive.description}}</h2>
+                    <h2>{{ship.description}}</h2>
                 </div>
             </div>
             <div class="item">
                 <div class="fill">
-                <img src="{{dive.photo2}}"></div>
+                <img src="{{ship.photo2}}"></div>
                 <div class="carousel-caption">
-                    <h2>{{dive.description}}</h2>
+                    <h2>{{ship.description}}</h2>
                 </div>
             </div>
             <div class="item">
                 <div class="fill">
-                <img src="{{dive.photo3}}"></div>
+                <img src="{{ship.photo3}}"></div>
                 <div class="carousel-caption">
-                    <h2>{{dive.description}}</h2>
+                    <h2>{{ship.description}}</h2>
                 </div>
             </div>
         </div>
@@ -164,22 +164,22 @@ However, delay the fade out process for 2.5 seconds */
         <div class="row">
             <div class="col-lg-12">
                 <h1 class="page-header">
-                    {{dive.name}}
+                    {{ship.name}}
                 </h1>
             </div>
             <div class="col-md-4">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h4><i class="fa fa-fw fa-check"></i> Reviews on {{dive.name}}</h4>
+                        <h4><i class="fa fa-fw fa-check"></i> Reviews on {{ship.name}}</h4>
                     </div>
                     <div class="panel-body">
                         
-                    <form action="{{url_for('diveplace',place_id = dive.id)}}" method = 'post'>
+                    <form action="{{url_for('boatplace',boat_id = ship.id)}}" method = 'post'>
                      
                      
                     
                          {% for review in review %}
-                         {% if review.what_place == dive.id %}
+                         {% if review.what_place == ship.id %}
 
                         <div class="reviews">
                             
@@ -195,7 +195,7 @@ However, delay the fade out process for 2.5 seconds */
                          {% endif %}
 
                         {% endfor %}
-                        <input type="text" placeholder="How is this diving place?" name = "review">
+                        <input type="text" placeholder="How is this wreck diving place?" name = "review">
                         <input type ="number" placeholder="How would you rate the place (1-5)" name= "star">
                         <input type = "submit" value = "add!">
                         <img src="{{url_for('static', filename='star.png')}}" height = "20px">
@@ -213,10 +213,9 @@ However, delay the fade out process for 2.5 seconds */
                     <div class="panel-body">
                           
                           <ul>
-                            <li><strong>Best time to dive:</strong> {{dive.bestime}}</li>  <br>
-                            <li><strong>Dive shops:</strong> {{dive.diveshop1}} or {{dive.diveshop2}}</li>  <br> 
-                            <li><strong>prices in each shop:</strong> {{dive.ds1price}} or {{dive.ds2price}}</li>  <br> 
-                            <li><strong>narley fish:</strong> {{dive.narley_fish}}</li>  
+                            <li><strong>Located in the heart of:</strong> {{ship.location}}</li>  <br>
+                            <li><strong>Ship history</strong> {{ship.boat_history}}</li>  <br> 
+                           
                              
 
                     
@@ -233,14 +232,6 @@ However, delay the fade out process for 2.5 seconds */
             
 
 
-            <form action =  "{{url_for('fav',place_id = dive.id)}}" method="post">
-               
-                <input type ="submit" value = "add to favorites" onclick="myFunction()">
-               
-                </form>
-
-          
-            <div id="snackbar">{{dive.name}} added to favorites</div>
      
     <!-- jQuery -->
     <script src="{{url_for('static', filename='js/jquery.js')}}"></script>

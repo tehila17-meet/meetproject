@@ -19,18 +19,27 @@ my_favs = relationship("User",
 							  secondaryjoin=id==favorite_association.c.places_id,
 							  lazy=True)
 '''
-
+favorite_association = Table('association', Base.metadata,
+	Column('user_id', Integer, ForeignKey('user.id')),
+	Column('places_id', Integer, ForeignKey('places.id'))
+	)
+favorite_association1 = Table('association1', Base.metadata,
+	Column('user_id', Integer, ForeignKey('user.id')),
+	Column('boats_id', Integer, ForeignKey('boats.id'))
+	)
 class User(Base):
 	__tablename__ = 'user'
 	id = Column(Integer, primary_key = True)
 	name = Column(String)
 	password= Column(String)
+	places = relationship("Places",
+		secondary=favorite_association,
+		back_populates = "user")
+	boats = relationship("Boats",
+		secondary=favorite_association1,
+		back_populates = "user")
 	
-class Favs(Base):
-	__tablename__ = 'favs'
-	id =  Column(Integer, primary_key = True)
-	place = Column(Integer)
-	user = Column(Integer)
+
 
 
 class Places(Base):
@@ -48,6 +57,36 @@ class Places(Base):
 	diveshop2 = Column(String)
 	ds2price = Column(Integer)
 	narley_fish = Column(String)
+	user = relationship(
+		"User",
+		secondary=favorite_association,
+		back_populates="places")
+
+class Boats(Base):
+	__tablename__ = 'boats'
+	id = Column(Integer, primary_key = True)
+	name = Column(String)
+	location = Column(String) 
+	boat_history = Column(String)
+	photo1 = Column(String)
+	photo2 = Column(String)
+	photo3 = Column(String)
+	description = Column(String)
+	user = relationship(
+		"User",
+		secondary=favorite_association1,
+		back_populates="boats")
+
+class Reefs(Base):
+	__tablename__ = 'reefs'
+	id = Column(Integer, primary_key = True)
+	name = Column(String)
+	location = Column(String)
+	photo1 = Column(String)
+	photo2 = Column(String)
+	photo3 = Column(String)
+
+
 
 
 
@@ -60,8 +99,8 @@ class Reviews(Base):
 	name= Column(String)
 
 
-#engine = create_engine('sqlite:///fizzBuzz.db')
-engine = create_engine('postgres:///d5tc1uq8kg2535.db')
+engine = create_engine('sqlite:///fizzBuzz.db')
+#engine = create_engine('postgres:///d5tc1uq8kg2535.db')
 Base.metadata.create_all(engine)
 
 	
