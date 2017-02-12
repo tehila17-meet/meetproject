@@ -12,9 +12,11 @@ favorite_association = Table('association', Base.metadata,
 	Column('user_id', Integer, ForeignKey('user.id')),
 	Column('places_id', Integer, ForeignKey('places.id'))
 	)
-been_association = Table('been',Base.metadata,
-	Column('user_id1',Integer,ForeignKey('user.id')),
-	Column('places_id1',Integer,ForeignKey('places.id')))
+been_association = Table('been_association', Base.metadata,
+	Column('user_been_id', Integer, ForeignKey('user.id')),
+	Column('places_been_id', Integer, ForeignKey('places.id'))
+	)
+
 
 class User(Base):
 	__tablename__ = 'user'
@@ -26,8 +28,8 @@ class User(Base):
 		back_populates = "user")
 	places_been = relationship("Places",
 		secondary=been_association,
-		back_populates = "user")
-	
+		back_populates = "user_been")
+
 	
 
 
@@ -54,7 +56,8 @@ class Places(Base):
 	user_been = relationship(
 		"User",
 		secondary=been_association,
-		back_populates = "places")
+		back_populates="places_been")
+
 
 class Boats(Base):
 	__tablename__ = 'boats'

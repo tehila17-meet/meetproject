@@ -90,7 +90,10 @@ def search1():
 				return redirect(url_for('boatplace',boat_id =a))
 			else:
 				return redirect(url_for('boats'))
-	
+@app.route('/about')
+@login_r
+def about():
+	return render_template('aboutme.html')
 
 @app.route('/profile/<int:user_id>',methods = ['GET','POST'])
 @login_r
@@ -98,10 +101,7 @@ def search1():
 def profile(user_id):
 	if request.method == 'GET':
 		user = session.query(User).filter_by(name= login_session['fullname']).first()
-		user1 = session.query(User).filter_by(name= login_session['fullname']).first()
 		
-		'''
-		for precent been
 		places = user.places
 		all_places = session.query(Places).all()
 		counter = 0
@@ -114,9 +114,9 @@ def profile(user_id):
 		
 		o = counter1 * 100
 		s = o / counter
-		print(s)
-		'''
-		return render_template('profile.html',user=user)
+		
+		
+		return render_template('profile.html',user=user,s=s)
 
 
 	else:
@@ -166,23 +166,27 @@ def diveplace(place_id):
 		
 
 @app.route('/divingplace/fav/<int:place_id>',methods = ['GET','POST'])
-def fav(place_id):		
+def fav(place_id):	
+		
 		user = session.query(User).filter_by(name = login_session['fullname']).first()
 		new_favorite=session.query(Places).filter_by(id=place_id).first()
 		
 		user.places.append(new_favorite)
 		new_favorite.user.append(user)
+		
 		print("we made it!")
 		session.commit()
 		return redirect(url_for('diveplace',place_id = place_id, user=user))
 		
 @app.route('/divingplace/been/<int:place_id>',methods = ['GET','POST'])
 def been(place_id):
+		
 		user = session.query(User).filter_by(name = login_session['fullname']).first()
 		new_been=session.query(Places).filter_by(id=place_id).first()
 		
 		user.places_been.append(new_been)
 		new_been.user_been.append(user)
+		
 		print("we made it!")
 		session.commit()
 		return redirect(url_for('diveplace',place_id = place_id, user=user))
@@ -206,7 +210,7 @@ def boatplace(boat_id):
 		
 		
 
-		return redirect(url_for('boatplace',boat_id = boat_id, star=star))
+		return redirect(url_for('boatplace',boat_id = boat_id, star=star,ship = ship))
 	
 	return render_template('boatplace.html', ship = ship, review = review,user=user)
 

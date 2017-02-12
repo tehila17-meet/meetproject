@@ -71,7 +71,39 @@ However, delay the fade out process for 2.5 seconds */
 @keyframes fadeout {
     from {bottom: 30px; opacity: 1;}
     to {bottom: 0; opacity: 0;}
+
 }
+
+      .button1 {
+    position: absolute;
+    top:430px;
+    left:850px;
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px
+
+}
+     .button2 {
+    position: absolute;
+    top:430px;
+    left:1000px;
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 22px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px
+
+}
+
+      
 </style>
 
 </head>
@@ -100,8 +132,8 @@ However, delay the fade out process for 2.5 seconds */
                      <li>
                         <a href="{{url_for('boats')}}">Boats</a>
                     </li>
-                    <li>
-                        <a href="services.html">News</a>
+                     <li>
+                        <a href="{{url_for('about')}}">About me</a>
                     </li>
                     <li><a href="{{url_for('profile', user_id = user.id)}}">My profile</a>
                     </li>
@@ -227,20 +259,22 @@ However, delay the fade out process for 2.5 seconds */
 
                     </div>
                 </div>
-                 </div>
-         
-            </div>
+                
             
 
 
             <form action =  "{{url_for('fav',place_id = dive.id)}}" method="post">
                
-                <input type ="submit" value = "add to favorites" onclick="myFunction()">
+                <input type ="submit" value = "add to favorites" name = "fav" class = "button1" onclick="myFunction()">
                
                 </form>
+                <br>
              <form action = "{{url_for('been',place_id = dive.id)}}" method = "post">
-                <input type = "submit" name = "been" value="Add to been">
+                <input type = "submit" name = "been" class = "button2" value="Add to been">
                 </form>
+             </div>
+         
+            </div>
 
           
             <div id="snackbar">{{dive.name}} added to favorites</div>
