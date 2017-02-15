@@ -47,8 +47,7 @@
                    <li>
                         <a href="{{url_for('places')}}">Places</a>
                     </li>
-                    <li>
-                        <a href="services.html">News</a>
+                    <li><a href="{{url_for('profile', user_id = user.id)}}">My profile</a>
                     </li>
                     <li>
                         <a href="{{url_for('boats')}}">Boats</a>

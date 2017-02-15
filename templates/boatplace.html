@@ -72,6 +72,11 @@ However, delay the fade out process for 2.5 seconds */
     from {bottom: 30px; opacity: 1;}
     to {bottom: 0; opacity: 0;}
 }
+.pic {
+    height: 400px;
+    width:100%;
+}
+
 </style>
 
 </head>
@@ -125,7 +130,7 @@ However, delay the fade out process for 2.5 seconds */
         <div class="carousel-inner">
             <div class="item active">
                 <div class = "fill" >
-                <img src="{{ship.photo1}}">
+                <img src="{{ship.photo1}}" class = "pic">
                 </div>
                 
                 <div class="carousel-caption">
@@ -134,14 +139,14 @@ However, delay the fade out process for 2.5 seconds */
             </div>
             <div class="item">
                 <div class="fill">
-                <img src="{{ship.photo2}}"></div>
+                <img src="{{ship.photo2}}" class = "pic"></div>
                 <div class="carousel-caption">
                     <h2>{{ship.description}}</h2>
                 </div>
             </div>
             <div class="item">
                 <div class="fill">
-                <img src="{{ship.photo3}}"></div>
+                <img src="{{ship.photo3}}" class = "pic"></div>
                 <div class="carousel-caption">
                     <h2>{{ship.description}}</h2>
                 </div>

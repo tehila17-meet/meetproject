@@ -69,14 +69,11 @@ def search():
 	if request.method == 'POST':
 		name_place = request.form['search']
 		print(name_place)
-		places = session.query(Places).all()
-		for p in places:
-			if name_place == p.name:
-				a = p.id
+		places = session.query(Places).filter(Places.name.contains(name_place.lower())).first()
+		place_id = places.id
 				#return render_template('diveplace.html',place_id = a)
-				return redirect(url_for('diveplace',place_id =a))
-			else:
-				return redirect(url_for('places'))
+		return redirect(url_for('diveplace',place_id = places.id))
+			
 @app.route('/search1', methods = ['GET','POST'])
 def search1():
 	if request.method == 'POST':
@@ -102,7 +99,7 @@ def profile(user_id):
 	if request.method == 'GET':
 		user = session.query(User).filter_by(name= login_session['fullname']).first()
 		
-		places = user.places
+		places = user.places_been
 		all_places = session.query(Places).all()
 		counter = 0
 		counter1 = 0
@@ -155,8 +152,6 @@ def diveplace(place_id):
 	if request.method == "POST":
 		new_review = request.form['review']
 		star = request.form['star']
-
-
 		
 		r= Reviews(review = new_review, star = star, what_place = place_id)
 		session.add(r)

@@ -102,6 +102,10 @@ However, delay the fade out process for 2.5 seconds */
     font-size: 16px
 
 }
+.pic {
+    height: 400px;
+    width:100%;
+}
 
       
 </style>
@@ -157,7 +161,7 @@ However, delay the fade out process for 2.5 seconds */
         <div class="carousel-inner">
             <div class="item active">
                 <div class = "fill" >
-                <img src="{{dive.photo1}}">
+                <img src="{{dive.photo1}}" class = "pic">
                 </div>
                 
                 <div class="carousel-caption">
@@ -166,14 +170,14 @@ However, delay the fade out process for 2.5 seconds */
             </div>
             <div class="item">
                 <div class="fill">
-                <img src="{{dive.photo2}}"></div>
+                <img src="{{dive.photo2}}" class = "pic"></div>
                 <div class="carousel-caption">
                     <h2>{{dive.description}}</h2>
                 </div>
             </div>
             <div class="item">
                 <div class="fill">
-                <img src="{{dive.photo3}}"></div>
+                <img src="{{dive.photo3}}" class = "pic"></div>
                 <div class="carousel-caption">
                     <h2>{{dive.description}}</h2>
                 </div>

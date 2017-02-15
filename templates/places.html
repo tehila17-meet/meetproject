@@ -47,13 +47,16 @@
                    <li>
                         <a href="{{url_for('places')}}">Places</a>
                     </li>
+                    <li>
+                        <a href="{{url_for('boats')}}">Boats</a>
+                    </li>
                      <li>
                         <a href="{{url_for('about')}}">About me</a>
                     </li>
                     </li>
-                     <li>
-                        <a href="{{url_for('boats')}}">Boats</a>
+                    <li><a href="{{url_for('profile', user_id = user.id)}}">My profile</a>
                     </li>
+                     
                 </ul>
             </div>
             <!-- /.navbar-collapse -->

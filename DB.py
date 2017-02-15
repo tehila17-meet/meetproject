@@ -4,6 +4,7 @@ from sqlalchemy.orm import relationship, sessionmaker
 from sqlalchemy import create_engine, func
 from passlib.apps import custom_app_context as pwd_context
 import random, string
+
 from itsdangerous import(TimedJSONWebSignatureSerializer as Serializer, BadSignature, SignatureExpired)
 
 Base = declarative_base()
@@ -21,6 +22,7 @@ been_association = Table('been_association', Base.metadata,
 class User(Base):
 	__tablename__ = 'user'
 	id = Column(Integer, primary_key = True)
+	
 	name = Column(String)
 	password= Column(String)
 	places = relationship("Places",
@@ -29,9 +31,6 @@ class User(Base):
 	places_been = relationship("Places",
 		secondary=been_association,
 		back_populates = "user_been")
-
-	
-
 
 
 class Places(Base):
@@ -81,8 +80,8 @@ class Reviews(Base):
 	name= Column(String)
 
 
-engine = create_engine('sqlite:///fizzBuzz.db')
-#engine = create_engine('postgres:///d5tc1uq8kg2535.db')
+#engine = create_engine('sqlite:///fizzBuzz.db')
+engine = create_engine('postgres:///d5tc1uq8kg2535.db')
 Base.metadata.create_all(engine)
 
 	
