@@ -13,7 +13,7 @@ app = Flask(__name__)
 
 app.secret_key = "MY_SUPER_SECRET_KEY"
 
-engine = create_engine('postgres://dcksenyhfyqqkm:bdce4b8ad60ef235a6f074e5c5b27c5d1f3e2bbaa078cf8fe3d9f9fe7f84f635@ec2-23-23-223-2.compute-1.amazonaws.com:5432/d5tc1uq8kg2535')
+engine = create_engine('sqlite:///fizzBuzz.db')
 Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine, autoflush=False)
 session = DBSession()
@@ -156,6 +156,7 @@ def diveplace(place_id):
 		r= Reviews(review = new_review, star = star, what_place = place_id)
 		session.add(r)
 		session.commit()
+		print()
 		return redirect(url_for('diveplace',place_id = place_id, user=user))
 	return render_template('diveplace.html', dive = dive, review = review,user=user,place_id=place_id)
 		
