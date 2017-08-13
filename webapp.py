@@ -6,7 +6,7 @@ import os
 from werkzeug.utils import secure_filename
 import random
 from random import choice, sample
-import database
+
 
 
 app = Flask(__name__)
