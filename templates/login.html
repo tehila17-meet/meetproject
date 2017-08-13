@@ -56,7 +56,7 @@ input:not([type="button"]) {
   -webkit-transition: all .5s;
   -moz-transition: all .5s;
   transition: all .5s;
-  font-family: 'Open Sans', 'sans-serif';
+  font-family:'Arial';
 }
 
 input:not([type="button"]):focus {
@@ -69,6 +69,7 @@ input:not([type="button"]):focus {
 /* submit button */
 input[type="button"] {
   font-size: 32px;
+  font-family:'Arial';
   color: #fff;
   background-color: #55acee;
   box-shadow: 0 5px 0 0 #3C93D5;
@@ -116,7 +117,7 @@ a{
 <input type="password" name="password" placeholder="password">
 <br>
 <input type="submit" value="Log in" id="button" ><br>
-<a href={{url_for("signup")}}> Dont have an account!?</a>
+<a href={{url_for("signup")}}> Dont have an account?</a>
 </form>
 </div>
   
