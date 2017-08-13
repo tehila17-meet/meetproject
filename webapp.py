@@ -62,7 +62,7 @@ def signup():
 		session.add(new_user)
 		session.commit()
 		
-	return redirect(url_for('login'))
+	return redirect(url_for('places'))
 
 @app.route('/search', methods = ['GET','POST'])
 def search():
